@@ -7,9 +7,9 @@ declare module "global" {
 	}
 }
 
-declare module "nearbyplaces" {
+declare module "express-server-nearby-places" {
 	/**
-	 * Query parameters for the Nearby Places API.
+	 * Query parameters for the Express API GET /api/places endpoint.
 	 * Note, this is neither an accurate nor an exhaustive interface; there are certain
 	 * combinations of parameters, value / enum restrictions, etc which apply, but are not
 	 * relevant for the scope of this take home assessment, as we are only leveraging the
@@ -18,22 +18,24 @@ declare module "nearbyplaces" {
 	 */
 	interface INearbyPlacesParameters {
 		/** specified as latitude,longtitude (e.g., location=-33.8670522%2C151.1957362) */
-		location: string;
-		/** the keyword term will be used in our implementation */
-		keyword?: string;
-	}
-
-	/** Method interface to expose only key parameters being used for the API call */
-	interface INearbyPlacesMethod {
-		/** output type, json or xml, default json */
-		output?: "json" | "xml";
-		/** Numerical latitude, -90 to 90 */
 		latitude: number;
-		/** Numerical longitude, -180 to 180 */
+		/** specified as latitude,longtitude (e.g., location=-33.8670522%2C151.1957362) */
 		longitude: number;
-		/** Search keyword, which we treat as required */
+		/** the keyword term will be used in our implementation */
 		keyword: string;
 	}
+
+	// /** Method interface to expose only key parameters being used for the API call */
+	// interface INearbyPlacesMethod {
+	// 	/** output type, json or xml, default json */
+	// 	output?: "json" | "xml";
+	// 	/** Numerical latitude, -90 to 90 */
+	// 	latitude: number;
+	// 	/** Numerical longitude, -180 to 180 */
+	// 	longitude: number;
+	// 	/** Search keyword, which we treat as required */
+	// 	keyword: string;
+	// }
 
 	/**
 	 * Per Google API, this is not exhaustive; only the required types for rendering are listed.

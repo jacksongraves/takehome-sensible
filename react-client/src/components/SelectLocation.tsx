@@ -11,7 +11,7 @@ import {
 	Typography,
 } from "@mui/material";
 import locations from "constants/locations";
-import { searchNearbyPlacesAPI } from "api/nearbyPlacesAPI";
+import { searchNearbyPlacesAPI } from "api/expressServerAPI";
 
 const SelectLocation = (): JSX.Element => {
 	const [locationIndex, setLocationIndex] = useState<number>(0);

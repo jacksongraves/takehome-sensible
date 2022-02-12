@@ -1,13 +1,11 @@
 // Node.js modules for server setup
 import express from "express";
+import cors from "cors";
 import { config } from "dotenv";
-
-// TODO Database connections
-// import connectDB from "./config/db.js";
 
 // Route & middleware imports
 import routes from "./routes";
-// import { errorMiddleware, notFoundMiddleware } from "./middlewares";
+import { errorMiddleware, notFoundMiddleware } from "./middlewares";
 
 // Set up the API and environment variables
 config();
@@ -22,6 +20,7 @@ if (process.env.NODE_ENV === "production") {
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -34,8 +33,8 @@ app.get("/", (req, res) => {
 app.use("/api", routes);
 
 // Specify middleware for global not found (404) and other error handling
-// app.use(notFoundMiddleware);
-// app.use(errorMiddleware);
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 // Grab the port
 const PORT: number = parseInt(process.env.PORT || "5000") || 5000;
@@ -46,3 +45,5 @@ const listener = (): void =>
 
 // Launch the server and listen on target port
 app.listen(PORT, listener);
+
+export default app;

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-// Specify middleware for global not found (404) handling
+/** Handles any HTTP requests that are not found and matched to a route, general 404 error */
 export const notFoundMiddleware = (req: Request, res: Response, next: NextFunction) => {
 	// Because we didn't find a resource, throw an error
 	const error = new Error(`Not Found - ${req.originalUrl}`);

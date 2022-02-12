@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-// Specify middleware for global error handling
+/** Handles errors with HTTP Status Codes and messages globally */
 export const errorMiddleware = (err: Error, req: Request, res: Response, next: NextFunction) => {
 	// Supply the error code if available, else override a good 200 request with an internal server error code of 500
 	const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
