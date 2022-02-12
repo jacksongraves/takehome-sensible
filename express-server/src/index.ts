@@ -20,6 +20,7 @@ if (process.env.NODE_ENV === "production") {
 
 const app = express();
 
+// CORS is required to allow localhost to interrogate Google's API
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -1,8 +1,9 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { HeaderBar } from "./headerStyles";
+import { IProps } from "Header";
 
-const Header = (): JSX.Element => (
+const Header = ({}: IProps): JSX.Element => (
 	<Box sx={{ flexGrow: 1 }}>
 		<HeaderBar position="static">
 			<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

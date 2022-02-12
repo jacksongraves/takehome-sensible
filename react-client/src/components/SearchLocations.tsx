@@ -14,9 +14,10 @@ import {
 } from "@mui/material";
 import locations from "constants/locations";
 import { searchNearbyPlacesAPI } from "api/expressServerAPI";
+import { IProps } from "SearchLocations";
 
 /** Manages state for search parameters, interrogates the API, and displays the results */
-const SelectLocation = (): JSX.Element => {
+const SearchLocations = ({ setResults }: IProps): JSX.Element => {
 	/** index in the preset locations array */
 	const [locationIndex, setLocationIndex] = useState<number | null>(0);
 
@@ -93,18 +94,18 @@ const SelectLocation = (): JSX.Element => {
 		}
 	};
 
-	/** Helper method to retrieve API results */
+	/** Helper method to retrieve API results, coerce any UI errors to be valid inputs */
 	const updateSearch = async () => {
 		try {
 			if (typeof latitude === "number" && typeof longitude === "number") {
 				const { results } = await searchNearbyPlacesAPI({
-					latitude,
-					longitude,
+					latitude: Math.max(Math.min(180, latitude), -180),
+					longitude: Math.max(Math.min(90, longitude), -90),
 					keyword,
 					radius: km * 1000,
 				});
 
-				console.log(results);
+				setResults(results);
 			} else {
 				throw Error("Latitude and longitude must be numeric");
 			}
@@ -198,4 +199,4 @@ const SelectLocation = (): JSX.Element => {
 	);
 };
 
-export default SelectLocation;
+export default SearchLocations;

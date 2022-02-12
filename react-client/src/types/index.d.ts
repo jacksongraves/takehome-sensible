@@ -29,10 +29,12 @@ declare module "express-server-nearby-places" {
 
 	/**
 	 * Per Google API, this is not exhaustive; only the required types for rendering are listed.
+	 * vicinity seems more likely to be returned than formatted address.
 	 * @see {@link https://developers.google.com/maps/documentation/places/web-service/search-nearby#Place}
 	 */
 	interface IPlace {
 		formatted_address?: string;
+		vicinity?: string;
 		name?: string;
 		rating?: number;
 	}
@@ -55,4 +57,19 @@ declare module "express-server-nearby-places" {
 		info_messages?: string[];
 		next_page_token?: string;
 	}
+}
+
+declare module "SearchLocations" {
+	interface IProps {
+		setResults: (results: IPlace[]) => void;
+	}
+}
+
+declare module "LocationResult" {
+	import { IPlace } from "express-server-nearby-places";
+	interface IProps extends IPlace {}
+}
+
+declare module "Header" {
+	interface IProps {}
 }

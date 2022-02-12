@@ -23,4 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # environment variables for API
-.env
+express-server/.env
+
+# note, the react-client .env is allowed
