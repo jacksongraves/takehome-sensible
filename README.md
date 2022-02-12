@@ -1,50 +1,57 @@
 # takehome-sensible
 
-Take home assessment for Sensible Weather Co based on Google's Nearby Search API
+Take home assessment for Sensible Weather Co based on Google's Nearby Search API.
 
-# Getting Started with Create React App
+# Architecture
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The project built as a React + TypeScript client which interacts with an Express + TypeScript server, to interrogate the Google Nearby Places API. The project is a single directory containing:
 
-## Available Scripts
+- `express-server`
+- `react-client`
 
-In the project directory, you can run:
+Note, though both server and client are in the same repo, this is **not managed as a monorepo**. They are stored together for convenience.
 
-### `npm start`
+This documentation assumes that you have Node, Yarn, and other basic JavaScript-ecosystem CLI and developer tools installed on your machine.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Running the Server
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The Express server has a single endpoint, `GET /api/places` which routes parameters to the Google Places API, and routes successful responses back to the requesting client.
 
-### `npm test`
+The server is intended to be run on `localhost` at port `8081`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To set it up, first create a `.env` file under `express-server` and add:
 
-### `npm run build`
+```sh
+GOOGLE_MAPS_API_KEY=your_api_key_here
+PORT=8081
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Then, on your local machine, open a terminal window from the repo. Run the following commands:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+cd express-server
+yarn
+yarn start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The commands change into the directory, installs `node_modules`, then builds the project into a `./build` directory using `tsc`, and runs it using `node`. Watch and other hot-loading capabilities are not implemented.
 
-### `npm run eject`
+Note, tests are not included, but would leverage `jest` to mock the Google NodeJS API and validate that the express routes are called and effectively proxy the data.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Running the Client
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The client is built using `create-react-app` and Material UI version 5, and displays a simple UI to set up a search request and display results.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+To set it up, the `.env` specifying the `localhost` port for the server is already included.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+On your local machine, open a terminal window from the repo. Run the following commands:
 
-## Learn More
+```sh
+cd react-client
+yarn
+yarn start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The commands change into the directory, installs `node_modules`, then runs the project in a watch mode using `react-scripts`. Navigate to `http://localhost:3000/` in the browser to view and interact with the application.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Note, tests are not included, but would leverage `jest` and `@testing-library/react` or `enzyme` to test that the various UI components render, change and manage state appropriately, and can successfully call the API via mocking and load results.

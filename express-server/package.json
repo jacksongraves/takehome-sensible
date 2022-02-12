@@ -9,7 +9,6 @@
 	],
 	"scripts": {
 		"build": "tsc",
-		"test": "react-scripts test",
 		"start": "npm run build && node build"
 	},
 	"dependencies": {
