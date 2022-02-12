@@ -1,5 +1,5 @@
 import axios from "axios";
-import { INearbyPlacesMethod } from "nearbyplaces";
+import { INearbyPlacesMethod, INearbyPlacesResponse } from "nearbyplaces";
 
 const nearbyPlacesAPI = axios.create({
 	baseURL: "https://maps.googleapis.com/maps/api/place/nearbysearch",
@@ -11,7 +11,7 @@ export const searchNearbyPlacesAPI = async ({
 	longitude,
 	keyword,
 }: INearbyPlacesMethod) => {
-	const { data } = await nearbyPlacesAPI.get(output, {
+	const { data } = await nearbyPlacesAPI.get<INearbyPlacesResponse>(output, {
 		params: {
 			location: `${latitude},${longitude}`,
 			keyword,

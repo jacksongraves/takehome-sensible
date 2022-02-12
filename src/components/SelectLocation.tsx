@@ -11,6 +11,7 @@ import {
 	Typography,
 } from "@mui/material";
 import locations from "constants/locations";
+import { searchNearbyPlacesAPI } from "api/nearbyPlacesAPI";
 
 const SelectLocation = (): JSX.Element => {
 	const [locationIndex, setLocationIndex] = useState<number>(0);
@@ -24,7 +25,19 @@ const SelectLocation = (): JSX.Element => {
 		setKeyword(event.target.value);
 	};
 
-	const updateSearch = async () => {};
+	const updateSearch = async () => {
+		try {
+			const nearbyPlaces = await searchNearbyPlacesAPI({
+				latitude: locations[locationIndex].latitude,
+				longitude: locations[locationIndex].longitude,
+				keyword,
+			});
+
+			console.log(nearbyPlaces);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<Grid>
 			<Typography variant="h4">Select a Location</Typography>
@@ -50,7 +63,9 @@ const SelectLocation = (): JSX.Element => {
 				variant="outlined"
 			/>
 
-			<Button variant="contained">Search</Button>
+			<Button variant="contained" onClick={updateSearch}>
+				Search
+			</Button>
 		</Grid>
 	);
 };
