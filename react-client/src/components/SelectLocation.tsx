@@ -7,6 +7,7 @@ import {
 	Grid,
 	Radio,
 	RadioGroup,
+	Slider,
 	TextField,
 	Typography,
 } from "@mui/material";
@@ -16,6 +17,7 @@ import { searchNearbyPlacesAPI } from "api/expressServerAPI";
 const SelectLocation = (): JSX.Element => {
 	const [locationIndex, setLocationIndex] = useState<number>(0);
 	const [keyword, setKeyword] = useState<string>("");
+	const [km, setKm] = useState(10);
 
 	const handleChangeLocation = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setLocationIndex(Number(event.target.value));
@@ -25,15 +27,21 @@ const SelectLocation = (): JSX.Element => {
 		setKeyword(event.target.value);
 	};
 
+	const handleChangeKm = (event: Event, newValue: number | number[]) => {
+		if (typeof newValue === "number") {
+			setKm(newValue);
+		}
+	};
 	const updateSearch = async () => {
 		try {
-			const nearbyPlaces = await searchNearbyPlacesAPI({
+			const { results } = await searchNearbyPlacesAPI({
 				latitude: locations[locationIndex].latitude,
 				longitude: locations[locationIndex].longitude,
 				keyword,
+				radius: km * 1000,
 			});
 
-			console.log(nearbyPlaces);
+			console.log(results);
 		} catch (error) {
 			console.log(error);
 		}
@@ -63,6 +71,15 @@ const SelectLocation = (): JSX.Element => {
 				variant="outlined"
 			/>
 
+			<Slider
+				defaultValue={10}
+				min={1}
+				max={50}
+				value={km}
+				onChange={handleChangeKm}
+				aria-label="Default"
+				valueLabelDisplay="auto"
+			/>
 			<Button variant="contained" onClick={updateSearch}>
 				Search
 			</Button>

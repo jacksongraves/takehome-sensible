@@ -23,19 +23,9 @@ declare module "express-server-nearby-places" {
 		longitude: number;
 		/** the keyword term will be used in our implementation */
 		keyword: string;
+		/** Max 50000meters, this is specified as optional by the docs but is actually required */
+		radius: number;
 	}
-
-	// /** Method interface to expose only key parameters being used for the API call */
-	// interface INearbyPlacesMethod {
-	// 	/** output type, json or xml, default json */
-	// 	output?: "json" | "xml";
-	// 	/** Numerical latitude, -90 to 90 */
-	// 	latitude: number;
-	// 	/** Numerical longitude, -180 to 180 */
-	// 	longitude: number;
-	// 	/** Search keyword, which we treat as required */
-	// 	keyword: string;
-	// }
 
 	/**
 	 * Per Google API, this is not exhaustive; only the required types for rendering are listed.

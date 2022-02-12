@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import expressAsyncHandler from "express-async-handler";
 import { Client, PlacesNearbyResponse } from "@googlemaps/google-maps-services-js";
+import { INearbyPlacesParameters } from "express-server-types";
 
 /**
  * Set up the Google NodeJS API Client
@@ -15,34 +16,24 @@ const googleAPIClient = new Client({});
  * @return {Promise}
  */
 export const searchNearbyPlacesAPI = expressAsyncHandler(
-	async (
-		req: Request<{}, {}, {}, { keyword: string; latitude: string; longitude: string }>,
-		res: Response
-	): Promise<void> => {
-		// Log the requested resource
-		console.log("GET /places", req.query, process.env.GOOGLE_MAPS_API_KEY);
-
+	async (req: Request<{}, {}, {}, INearbyPlacesParameters>, res: Response): Promise<void> => {
 		try {
 			// Destructure the request body
-			const { keyword, latitude, longitude } = req.query;
+			const { keyword, latitude, longitude, radius } = req.query;
 
 			// Interrogate the API using the Google NodeJS Client
-			const data = await googleAPIClient.placesNearby({
+			const { data } = await googleAPIClient.placesNearby({
 				params: {
 					location: `${latitude},${longitude}`,
 					keyword: keyword || "",
+					radius: Number(radius || 50000),
 					key: process.env.GOOGLE_MAPS_API_KEY || "",
 				},
 			});
 
-			console.log(data);
-
-			// Send the data back to the client
-			res.status(200).json(data);
+			// Send the data back to the client; they only need the list of results
+			res.status(200).json(data.results || []);
 		} catch (error) {
-			// @ts-ignore
-			console.log(error);
-			// TODO add any custom error handling
 			throw error;
 		}
 	}
